@@ -71,6 +71,10 @@ func (s *Server) worker() {
 func (s *Server) do(conn net.Conn) {
 	buf := make([]byte, 1024) // Buffer to read incoming data.
 
+	// Set timeouts for read and write operations.
+	conn.SetReadDeadline(time.Now().Add(120 * time.Second))
+	conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
+
 	// Read incoming data into the buffer.
 	_, err := conn.Read(buf)
 	if err != nil {
